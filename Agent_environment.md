@@ -6,8 +6,8 @@
 
 - **AI tool:** ChatGPT
 - **Estimated AI contribution:** 40%
-- **AI assistance:** Helped organize the information from my chat history, reform my question promt and write this document.
-- **My contribution:** I set up Copilot, checked my computer information, and tested whether Copilot could respond, and drafted the question I would like to ask.
+- **AI assistance:** Helped organize information from my chat history, refine my prompts, and write this document.
+- **My contribution:** I set up Copilot, checked my computer information, tested whether Copilot could respond, and drafted the questions I wanted to ask.
 - **Detailed log:** See `Prompt_test_log.md`.
 
 ## 1. My Computer and Software
@@ -60,9 +60,9 @@ When asked about its available tools, Copilot reported tools
 for reading, searching, creating, and editing files, checking
 code errors, running terminal commands, and accessing webpages.
 
-The full response is retained in the exported Copilot chat
-history. Prompt_test_log.md summarizes the interaction and
-records observed tool IDs.
+The full response is retained in my exported Copilot chat
+history. Prompt_test_log.md summarizes what I asked and
+the results.
 
 ### 4.1 Tools Observed in the Chat Export
 
@@ -114,8 +114,8 @@ I supplied task-specific instructions in my prompts, including:
 - Do not commit, push, upload, publish, or create a release
   during local workflow preparation.
 
-The original prompts and recorded outcomes are included in
-Prompt_test_log.md.
+Selected original prompts, summaries of other requests,
+and their results are included in Prompt_test_log.md.
 
 ## 5. Setup and Verification Results
 
@@ -145,7 +145,10 @@ multi-stage image, and verified that the Compose-managed app
 returned HTTP 200 with `{"status":"ok"}`.
 
 The GitHub Actions workflow was created and locally checked.
-GitHub Actions and the security scans have not yet been run.
+After uploading the project, I checked the GitHub Actions
+run. The tests and Docker build succeeded. Trivy, Semgrep,
+and SonarQube Cloud also ran successfully, and the reports
+were saved. Security findings did not block the pipeline.
 
-Detailed prompts, commands, results, and corrections are
-recorded in `Prompt_test_log.md`.
+The prompts, commands, results, corrections, and GitHub
+Actions run link are recorded in Prompt_test_log.md.

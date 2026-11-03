@@ -18,8 +18,9 @@ tests, Docker setup, and GitHub Actions workflow. The app
 currently has a /health endpoint. My proposed discussion-board
 features are described in spec.md.
 
-The results below come from the checks recorded during that
-work. GitHub Actions and the security scans have not yet been run.
+The results below come from the checks recorded during this
+work. I also ran the GitHub Actions pipeline after uploading
+the project. The results are included at the end of this log.
 
 ## Test Results
 
@@ -32,7 +33,7 @@ work. GitHub Actions and the security scans have not yet been run.
 | Updated Compose runtime                       | Health retry returned HTTP 200                                                                               |
 | Local workflow checks                         | Docker build and pytest succeeded; Copilot reported that later YAML and embedded Python syntax checks passed |
 | actionlint                                    | Not installed; skipped                                                                                       |
-| GitHub Actions, Trivy, Semgrep, and SonarQube | Not run yet                                                                                                  |
+| GitHub Actions, Trivy, Semgrep, and SonarQube | Ran successfully; results are listed below                                                                   |
 
 ## Prompt and Result History
 
@@ -420,6 +421,26 @@ Copilot's final recorded results stated that the YAML parsed,
 both embedded Python scripts compiled, and editor diagnostics
 reported no errors.
 
-These checks did not run GitHub Actions, Trivy, Semgrep,
-or SonarQube. Their execution results still need to be
-recorded after the pipeline runs.
+These were local checks only. I later ran the pipeline on
+GitHub and recorded the results below.
+
+## GitHub Actions Run
+
+After uploading the project, I checked the GitHub Actions
+run and downloaded its reports and execution logs.
+
+- Date: November 2, 2026
+- Run: https://github.com/sw-stephaniewang/cs763-project-assignment-1/actions/runs/41547841213
+- Commit: d5d65c27c1ec5caca711c1a1b319dc7e2a3bcbf2
+- Overall result: Success
+- Pytest: 1 passed, 1 warning in 0.30s
+- Docker build: Succeeded
+- Trivy: Executed successfully; 0 critical, 8 high,
+  5 medium, and 2 low findings
+- Semgrep: Executed successfully; 0 findings and
+  0 analysis errors
+- SonarQube Cloud: Scan and background processing succeeded
+- Report upload: Succeeded
+
+The detailed SonarQube results are available on my SonarQube
+project dashboard.
