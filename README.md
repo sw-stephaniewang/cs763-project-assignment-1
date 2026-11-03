@@ -1,5 +1,13 @@
 # Research Blog & Project Discussion Board
 
+## AI Usage Summary
+
+- **AI tools:** GitHub Copilot and ChatGPT.
+- **Estimated AI contribution to this document:** 50%.
+- **AI assistance:** Copilot generated the initial instructions. ChatGPT helped revise the wording and command formatting.
+- **My contribution and review:** I reviewed the instructions against my project files and checked the recorded local execution results.
+- **Detailed log:** See Prompt_test_log.md.
+
 For Assignment 1, it includes a basic FastAPI status endpoint,
 an automated test, and a multi-stage Docker setup with Docker Compose.
 
