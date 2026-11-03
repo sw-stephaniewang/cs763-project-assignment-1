@@ -38,18 +38,17 @@
 
 ## 3. Model Settings
 
-| Setting                                                           | Recorded Value                                  |
-| ----------------------------------------------------------------- | ----------------------------------------------- |
-| Model selection                                                   | Auto                                            |
-| Model self-reported during the initial model-identification check | MAI-Code-1.1-Flash                              |
-| Model displayed for a later workflow-review response              | GPT-5-Luna                                      |
-| Temperature                                                       | Not accessible to the agent; no value confirmed |
-| Top-p                                                             | Not accessible to the agent; no value confirmed |
-| Maximum output tokens                                             | Not accessible to the agent; no value confirmed |
+| Setting                                                           | Recorded Value                          |
+| ----------------------------------------------------------------- | --------------------------------------- |
+| Model selection                                                   | Auto (Balance)                          |
+| Model self-reported during the initial model-identification check | MAI-Code-1.1-Flash                      |
+| Model displayed for a later workflow-review response              | GPT-6-Luna                              |
+| Temperature                                                       | Not shown in VS Code; no value recorded |
+| Top-p                                                             | Not shown in VS Code; no value recorded |
+| Maximum output tokens                                             | Not shown in VS Code; no value recorded |
 
-I used Auto model selection and did not manually change
-temperature, top-p, or maximum output tokens. Their actual
-values were not available to me.
+I used Auto model selection (Balance). The other models in the
+picker needed a plan upgrade, so Auto was the only choice I could use. I searched VS Code Settings for temperature, top-p, and max tokens and only found unrelated settings, so I did not change or record any values.
 
 ## 4. Tools and Permissions
 
@@ -60,14 +59,13 @@ When asked about its available tools, Copilot reported tools
 for reading, searching, creating, and editing files, checking
 code errors, running terminal commands, and accessing webpages.
 
-The full response is retained in my exported Copilot chat
-history. Prompt_test_log.md summarizes what I asked and
-the results.
+The prompts, response summaries, and verification results
+are recorded in Prompt_test_log.md.
 
-### 4.1 Tools Observed in the Chat Export
+### 4.1 Tools Observed
 
-The following serialized tool IDs appear in the exported
-execution history.
+The following tool IDs were recorded during my Copilot
+sessions.
 
 | Tool ID                      | Observed purpose                                                 |
 | ---------------------------- | ---------------------------------------------------------------- |
