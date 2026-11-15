@@ -1,61 +1,89 @@
-# Conceptual Journal
+# Master Conceptual Journal & AI Telemetry Log
+
+- **Student:** Stephanie Wang
+- **Assignment:** Project Assignment 2 — The Naive Baseline
+- **Assigned domain:** Domain 4 — Research Blog & Project Discussion Board
+- **Core stack:** Python, FastAPI, Pydantic, SQLAlchemy, PostgreSQL, Docker Compose, and GitHub Actions
 
 ## AI Usage Log
 
-- I used ChatGPT to help me understand the PA2 requirements, plan the order of the work, draft prompts, and organize this journal.
-- I used GitHub Copilot Agent mode in VS Code to build and test the discussion board in stages.
-- I compared the results with the Domain 4 master spec and reran several of the PostgreSQL tests myself.
-- Estimated conceptual AI contribution to this journal — 70%
+- **Estimated conceptual AI contribution to this journal:** 70%
+- **AI assistance:** I used GitHub Copilot to generate and revise the application, integration tests, and CI workflow. I used ChatGPT to interpret the rubric, draft the security reports, and revise this journal. I used Claude to review my SAST report and interpret the local MF-1 results, then asked ChatGPT to check that feedback against the rubric.
+- **My contribution:** I compared the implementation and tests with the Domain 4 requirements, ran integration tests, checked the hosted scanner results, and tested MF-1 locally.
 
-## Project Assignment 2
+## 1. System Environment & Tool Specification
 
-### 1. Set up my PA2 branch
+### 1.1 AI Tool & Engine Deployments
 
-- I started PA2 from the version I submitted for A1 so I could build on my FastAPI setup and GitHub Actions workflow.
-- I used the professor’s Domain 4 master spec for the features. One difference I noticed was that my A1 design had comments on posts, while PA2 also needs comments that can reply to other comments.
+| Tool context                                 | Platform                  | Model or setting I could verify                                                                                              | Access mode                              |
+| -------------------------------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Application code, integration tests, and CI  | GitHub Copilot in VS Code | Auto mode. Some session entries show `agent-host-copilotcli:auto`. The underlying model was not identified in those entries. | Agent mode in my local VS Code workspace |
+| Planning, documentation, and threat modeling | ChatGPT                   | Exact model identifier unverified                                                                                            | Web chat                                 |
+| SAST report and MF-1 evidence review         | Claude                    | Exact model identifier unverified                                                                                            | Web chat                                 |
 
-### 2. Create and retrieve a project update
+### 1.2 Verification Telemetry Access Checklist
 
-- I started with one feature so I could follow the whole process. The test creates a post, takes the UUID from the response, and uses it to get the saved post back. I ran the test myself with PostgreSQL running.
-- I learned that putting PA2 in a separate folder still allowed the root pytest command to find its test. The A1 environment did not have the PA2 dependencies, so Copilot renamed the test file. That meant I would need to tell GitHub Actions exactly which PA2 test file to run.
+- **AI usage summary:** `code_AI_history.md` records the dates and summaries of my PA2 prompts and responses.
+- **Copilot session export:** I used the export to verify the dates of my Copilot interactions. I retained the export privately.
+- **Repository records:** The `.ai_logs/` folder contains my conceptual journal and dated AI usage summaries.
 
-### 3. Finish the post lifecycle
+## 2. Cognitive Reflection — Code Generation & Comprehension
 
-- The first version only used `project_id`. Adding `scope_type` and `scope_id` let the same post model work for a project, course, or lab.
-- I reran the expanded test, which checks that an edit is saved and that a deleted post can no longer be retrieved. Copilot separately reported checking that a post saved before the schema change could still be read afterward.
+### 2.1 The Architectural Flow
 
-### 4. Add post search and timelines
+I followed the post-creation route because it was the first feature I tested. FastAPI takes the JSON request body and parses it using the `DiscussionPostCreate` schema. Pydantic checks the structure and types before the handler processes the request. FastAPI also provides a SQLAlchemy session through the `get_db` dependency.
 
-- I reran the tests after Copilot added the filters and timelines. The course timeline test passed with a post attached directly to the course.
-- The phrase “multi-project feed” in the master spec made me wonder whether the timeline should also include posts from the projects in that course. I kept that question open for a closer review.
+The handler uses the parsed fields to create a `DiscussionPost` object. It adds the object to the session, commits the transaction, and refreshes the object with the stored values. FastAPI uses the response schema to return the saved post, including the UUID used by the retrieval route. The `get_db` dependency opens the session in a context manager, which closes it when the dependency exits. I verified that the service could save and retrieve a post. I did not test a forced database failure or observe rollback behavior.
 
-### 5. Add nested comments
+The code uses dependency injection to provide the database session and SQLAlchemy’s ORM to map Python objects to PostgreSQL tables. The route handler performs the database operations directly. The request and response schemas are defined separately from the database models.
 
-- The comment list comes back in chronological order. I can use the parent comment ID to see which comment each reply belongs to.
-- Copilot chose to block deletion when a comment still has replies. This keeps the replies connected to their parent, but it means the replies have to be removed first. I treated this as a design choice because the master spec leaves that behavior open.
+### 2.2 Defensive Edge-Case Evaluation
 
-### 6. Add comment search and text export
+| Area                       | Code or test reviewed                                                                                         | What I found and checked                                                                                                                                                                                                      |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Directly scoped timelines  | `test_post_listing_filters_and_scope_timeline` in `functional-codebase/tests/discussion_posts_integration.py` | The original test covered a post attached directly to the course. It left the master specification’s associated-project behavior untested.                                                                                    |
+| Course and lab timelines   | `test_course_and_lab_timelines_include_associated_projects` in the same test file                             | The revised test covers posts from associated projects and checks ordering and visibility. I reran the full PA2 suite locally and all seven tests passed.                                                                     |
+| PostgreSQL JSON comparison | Timeline query in `functional-codebase/app/main.py`                                                           | Copilot’s first revision used `DISTINCT`. PostgreSQL could not compare the JSON tags column for equality, so that test run failed. Copilot removed `DISTINCT` and reported a passing rerun. My later local suite also passed. |
+| Nested comment visibility  | `test_hidden_comment_suppresses_nested_replies_only` in the integration test file                             | A reply can keep its `active` state while its parent is hidden. The test covers how hiding a parent affects nested replies. That visibility rule matters for the comment list and the text export.                            |
 
-- A keyword or author filter helps someone find specific comments. A text export is supposed to be a copy of the full thread. I thought it made sense to keep the download separate from the filters because someone could mistake a filtered file for the full record.
-- Copilot indented replies in the text file so readers can follow the conversation without looking up parent comment IDs.
+The lecture discussion about AI-generated tests helped me understand the timeline gap. The original test passed because its expected result matched the initial implementation. Comparing that result with the Domain 4 specification showed me that I needed a test with posts from multiple associated projects.
 
-### 7. Add moderation
+### 2.3 Security Shortcuts in the Baseline
 
-- I chose the mock faculty header so I could test the moderation workflow in PA2. The role comes from the request, so the app trusts what the caller says about their role. I plan to include that assumption in my security analysis.
-- I noticed that a reply can still have an `active` status and be hidden because its parent is hidden. The comment list and text download both need to follow that rule so the download shows the same visible thread.
+I chose a mock faculty header so I could test hiding and restoring content. The baseline used that value to decide whether to allow moderation. For a deployed service, I proposed verifying the caller’s identity and checking whether that person has permission to moderate the specific scope.
 
-### 8. Review timelines against the master spec
+The post routes also helped me see the difference between request validation and authorization. The schema checks the request fields. The handler still needs to check whether the caller has permission to change that specific post. My local MF-1 checks showed that the baseline accepted an update and a separate deletion without credentials.
 
-- I asked Copilot to compare the timeline code and tests with the PDF. The review showed that the course and lab queries only looked for posts attached directly to the requested scope.
-- The earlier test passed because it expected that exact behavior. It never linked two projects to the same course and checked whether both projects’ posts appeared. That helped me see why I need to compare what a test checks with what the assignment actually asks for.
+The text export returns the visible thread, but the source builds the entire response in memory without an application-level size limit. I documented the missing limit from the source. I did not measure memory use or response time for large exports.
 
-### 9. Fix course and lab timelines
+## 3. Cognitive Reflection — Document Authoring & Threat Design
 
-- I asked Copilot to include posts from the course or lab itself and from its associated projects. The new test checks which posts appear, whether they appear in order, and whether unrelated or hidden posts stay out.
-- The first run failed because `DISTINCT` tried to compare the PostgreSQL JSON tags column. Copilot removed it because the query already selects each matching post once. That helped me see why it was worth checking how the query matched rows before adding a step to remove duplicates.
+### 3.1 AI Collaboration for Security Analysis
 
-### 10. Update GitHub Actions for PA2
+I first asked ChatGPT to break down the PA2 rubric. I then used my route list and database structure to describe what moves between the client, FastAPI, and PostgreSQL. That data flow gave me a basis for the security requirements, abuse cases, attack trees, and STRIDE matrix. After documenting the SAST findings, I revised the mitigation table so it addressed the same weaknesses.
 
-- I wanted GitHub Actions to run the PostgreSQL integration tests I had been using locally. The A1 health test only checks the A1 endpoint, so I asked Copilot to add an explicit PA2 test step.
-- I also asked Copilot to pin the actions to full commit SHAs based on Steve’s feedback and keep the step that waits for SonarQube to finish processing.
-- Copilot reported that the local checks passed. My next check is to open the hosted run and verify that it actually runs the PA2 tests and scans the PA2 source. Trivy still uses the A1 image, so I’ll keep that scope clear when I write up the results.
+For the SAST report, I used ChatGPT to interpret the GitHub Actions artifact and organize the findings. Claude helped me review the local MF-1 evidence and the report draft. I then asked ChatGPT to compare that feedback with the assignment rubric and refine the validation wording.
+
+### 3.2 Evaluation of AI Blind Spots
+
+My first triage draft stopped after recording zero findings from both scanners. The rubric also required three validated vulnerabilities across different layers. I kept the scanner results in the ledger and added the manual findings with a CWE ID, root cause, and evidence for each.
+
+I distinguished the evidence for each finding. MF-1 had local runtime evidence. MF-2 came from source review of the comment query and export. MF-3 came from source review of the database connection fallback. I kept the deployment impact conditional because the configuration I reviewed was for local development.
+
+The hosted run also showed why passing tests and reported coverage are different. The test log showed that all seven tests passed. SonarQube showed 0.0% new-code coverage, and the workflow did not generate a coverage report for it to import. I recorded both results in the SAST report.
+
+When I compared the STRIDE matrix with the first mitigation table, I saw that the matrix discussed risks on the client-to-API connection, while the mitigation table only addressed protecting database connections. I added HTTPS for client-to-API traffic outside local development. This gave me a specific example of checking whether each risk in the matrix had a corresponding control.
+
+## 4. Human Verification & Audit Trail
+
+Dates indicate when I reviewed, shared, or documented the evidence. They identify the record when the original execution timestamp is unavailable.
+
+| Date and record                             | Component                                      | Method                                                                                           | Verified outcome                                                                                                                                                  |
+| ------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| November 13, 2026 (terminal log shared)     | Post creation and retrieval                    | Ran the PostgreSQL integration test locally.                                                     | Both runs passed. The test checked that a saved post could be retrieved by UUID.                                                                                  |
+| November 13, 2026 (terminal log shared)     | Post lifecycle, filters, and initial timelines | Reran the PostgreSQL integration tests after the changes.                                        | The lifecycle run reported `1 passed`. The filters and direct-scope timeline run reported `2 passed`.                                                             |
+| November 13, 2026 (terminal log shared)     | Revised course and lab timelines               | Ran the full PA2 PostgreSQL integration suite locally.                                           | All seven tests passed, including the test for timelines with associated projects.                                                                                |
+| November 13, 2026 (hosted results reviewed) | GitHub Actions and SAST scans                  | Reviewed the PR artifact and checked the SonarQube Cloud Issues page after clearing the filters. | All seven PA2 tests passed. Semgrep reported zero findings and zero errors. SonarQube showed zero new issues, and its Quality Gate failed on new-code coverage.   |
+| November 14, 2026 (result documented)       | MF-1 — Post authorization                      | Reviewed the handlers and checked the running application locally.                               | The update returned `200 OK` and showed a changed title and author handle. A separate deletion returned `204 No Content`. Both were accepted without credentials. |
+| November 14, 2026 (finding documented)      | MF-2 — Comment export                          | Reviewed the comment query and text response assembly.                                           | The query has no row limit, and the export has no output-size cap. Runtime resource usage was not measured.                                                       |
+| November 14, 2026 (finding documented)      | MF-3 — Database configuration                  | Reviewed `DEFAULT_DATABASE_URL` and how the database engine selects it.                          | The engine uses fixed development credentials when `DATABASE_URL` is unset. Exposure outside local development was not established.                               |
