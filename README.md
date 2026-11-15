@@ -148,3 +148,11 @@ or creating another container with the same name:
 docker stop cs763-a1-check
 docker rm cs763-a1-check
 ```
+
+### Post and comment filtering
+
+The post list supports keyword, author, date-range, category, and project,
+course, or lab filters. The comment list is scoped to the post identified by
+`post_id` and supports keyword and author filters within that thread. Its
+project, course, or lab scope comes from the parent post. Date-range filtering
+is available on the post list.
