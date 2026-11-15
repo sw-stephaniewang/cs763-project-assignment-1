@@ -112,3 +112,27 @@ The dates in this section come from the Copilot session history in Pacific Time.
 - **Prompt summary:** I drew a data flow diagram for the PA2 discussion board and asked ChatGPT to turn my drawing into Mermaid code for `security-analysis.md`. I asked it to preserve the components, arrow directions, and trust boundaries in my drawing.
 - **Response summary:** ChatGPT translated my drawing into Mermaid code that showed the client, the FastAPI application, PostgreSQL, and the data flows between them.
 - **What I checked:** I compared the rendered diagram with my original drawing and the PA2 architecture. I checked that the arrows followed the request and response paths and that the trust boundaries matched the ones I described in the security analysis.
+
+### 7. Review the PA2 files before submission
+
+- **Date:** November 14, 2026
+- **Tool:** Claude
+- **Prompt summary:** I asked Claude to compare my release files with the PA2 instructions and check for missing disclosures, unfinished placeholders, and anything I needed to fix before submitting.
+- **Response summary:** Claude flagged that `functional-codebase/README.md` was missing an AI usage summary and pointed out that the AI history did not yet cover the final submission review or README revision.
+- **What I did:** I added an AI usage summary to the README and used the feedback to fill in the missing entries in this log.
+
+### 8. Revise the PA2 README
+
+- **Date:** November 15, 2026
+- **Tool:** ChatGPT
+- **Prompt summary:** I asked ChatGPT to revise the README that Copilot had created, make it sound more like my own writing, and clarify how to run the app, run the integration tests, and use the endpoints.
+- **Response summary:** ChatGPT rewrote the setup and testing instructions, organized the endpoints into tables, and helped draft the AI usage summary.
+- **What I checked:** I compared the commands with my project files and the endpoint descriptions with the FastAPI code. I corrected the disclosure to credit Copilot for creating and updating the README and ChatGPT for revising it.
+
+### 9. Organize the AI history and conceptual journal
+
+- **Date:** November 15, 2026
+- **Tool:** ChatGPT
+- **Prompt summary:** I asked ChatGPT to help organize my AI usage notes and conceptual journal so they showed what I asked, what the tools suggested, and how I checked their work.
+- **Response summary:** ChatGPT helped me structure the dated entries and describe my own decisions and verification.
+- **What I checked:** I reviewed the wording against my project notes and kept the distinction between what I personally verified and what the tools reported.
