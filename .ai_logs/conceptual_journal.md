@@ -24,7 +24,7 @@
 ### 1.2 Verification Telemetry Access Checklist
 
 - **AI usage summary:** `code_AI_history.md` records the dates and summaries of my PA2 prompts and responses.
-- **Copilot session export:** I used the export to verify the dates of my Copilot interactions. I retained the export privately.
+- **Copilot session export:** [PA2 Copilot session](pa2-copilot-session.json)
 - **Repository records:** The `.ai_logs/` folder contains my conceptual journal and dated AI usage summaries.
 
 ## 2. Cognitive Reflection — Code Generation & Comprehension
