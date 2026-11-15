@@ -1,6 +1,5 @@
 # Master Conceptual Journal & AI Telemetry Log
 
-- **Student:** Stephanie Wang
 - **Assignment:** Project Assignment 2 — The Naive Baseline
 - **Assigned domain:** Domain 4 — Research Blog & Project Discussion Board
 - **Core stack:** Python, FastAPI, Pydantic, SQLAlchemy, PostgreSQL, Docker Compose, and GitHub Actions
@@ -23,9 +22,8 @@
 
 ### 1.2 Verification Telemetry Access Checklist
 
-- **AI usage summary:** `code_AI_history.md` records the dates and summaries of my PA2 prompts and responses.
-- **Copilot session export:** [PA2 Copilot session](pa2-copilot-session.json)
-- **Repository records:** The `.ai_logs/` folder contains my conceptual journal and dated AI usage summaries.
+- **AI usage summary:** [Code AI History](code_AI_history.md) includes prompt and response summaries for GitHub Copilot, ChatGPT, and Claude.
+- **Copilot appendix:** [PA2 Copilot session export](pa2-copilot-session.json) contains the original Copilot prompts and responses.
 
 ## 2. Cognitive Reflection — Code Generation & Comprehension
 

@@ -104,3 +104,11 @@ The dates in this section come from the Copilot session history in Pacific Time.
 - **Response summary:** ChatGPT helped me draft the security requirements, attack surface map, data flow diagram, STRIDE matrix, and three attack trees.
 - **What I learned:** A client-supplied role does not establish faculty permission. The server needs a verified identity and a permission check for the target scope. Course and lab timelines also include posts from associated projects, so authorization needs to account for those posts.
 - **What I changed:** I linked the mitigation table to MF-1 through MF-3 and added recommendations for audit records and HTTPS.
+
+### 6. Convert my data flow diagram to Mermaid
+
+- **Date:** November 14, 2026
+- **Tool:** ChatGPT
+- **Prompt summary:** I drew a data flow diagram for the PA2 discussion board and asked ChatGPT to turn my drawing into Mermaid code for `security-analysis.md`. I asked it to preserve the components, arrow directions, and trust boundaries in my drawing.
+- **Response summary:** ChatGPT translated my drawing into Mermaid code that showed the client, the FastAPI application, PostgreSQL, and the data flows between them.
+- **What I checked:** I compared the rendered diagram with my original drawing and the PA2 architecture. I checked that the arrows followed the request and response paths and that the trust boundaries matched the ones I described in the security analysis.

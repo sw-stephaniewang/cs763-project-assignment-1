@@ -4,7 +4,7 @@
 
 - **AI tools:** ChatGPT and Claude
 - **Estimated conceptual AI contribution:** 50%
-- **AI assistance:** I asked ChatGPT to help interpret the scanner results, organize the report, and match the manual findings to CWE IDs. It also helps interpret the MF-1 test results and review the report against the rubric.
+- **AI assistance:** I asked ChatGPT to help interpret the scanner results, organize the report, and match the manual findings to CWE IDs. I asked Claude to help interpret my local MF-1 test results and review the report. I then asked ChatGPT to compare Claude’s feedback with the PA2 rubric.
 - **Human verification:** I downloaded the GitHub Actions artifact, checked the SonarQube Cloud Issues page for PR #1 after clearing the filters, and checked MF-1 against the running app locally.
 
 ## Scan Results

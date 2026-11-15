@@ -5,7 +5,7 @@
 - **AI tool:** ChatGPT
 - **Estimated conceptual AI contribution:** 75%
 - **AI assistance:** I asked ChatGPT to compare the assignment rubric with my PA2 code and help draft the data flow diagram, attack surface map, STRIDE analysis, abuse cases, and mitigations.
-- **Analysis scope:** Domain 4 Research Blog & Project Discussion Board, PA2 baseline on `assignment-2`, commit `6a29856`.
+- **Analysis scope:** Domain 4 Research Blog & Project Discussion Board, PA2 baseline on `assignment-2`.
 - **Evidence:** This analysis uses source review of the FastAPI routes, database models, request schemas, and integration tests. The risks below are based on the baseline design.
 
 ## 1. Security Requirements
